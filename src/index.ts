@@ -1,29 +1,26 @@
 import { Elysia } from 'elysia'
-import { supabase } from '../src/lib/supabase'
 import cors from '@elysiajs/cors'
 import swagger from '@elysiajs/swagger'
+
+import { auth } from './routes/auth'
+import { store } from './routes/stores'
+import { users } from './routes/users'
 
 const app = new Elysia()
 
 app
   .use(cors())
   .use(swagger())
-  .get('/users', async () => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*');
-    if (error) return { error: error.message };
-    console.log("res: ", data);
-    return { users: data };
+
+  .get('/', () => {
+    return (
+      "This is the default server route"
+    )
   })
-  .get('/stores', async () => {
-    const { data, error } = await supabase
-      .from('stores')
-      .select('*');
-      if (error) return { error: error.message };
-      console.log("res: ", data);
-      return { stores: data };
-    })
+
+  .use(users)
+  .use(store)
+  .use(auth)
 
   .listen(5000)
 
