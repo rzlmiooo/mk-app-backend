@@ -1,0 +1,10 @@
+import { Elysia, t } from "elysia";
+import bcrypt from "bcrypt";
+import jwtPlugin from "@elysiajs/jwt";
+import { supabase } from "./lib/supabase";
+import swagger from "@elysiajs/swagger";
+import cors from "@elysiajs/cors";
+
+const app = new Elysia()
+  .use(cors())
+  .use(swagger())
